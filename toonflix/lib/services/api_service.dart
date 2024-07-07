@@ -20,8 +20,8 @@ class ApiService {
       for (var webtoon in webtoons) {
         final instance = WebtoonModel.fromJson(webtoon);
         webtoonInstances.add(instance);
-        // var title = toon.title;
-        // var id = toon.id;
+        // var title = webtoon.title;
+        // var id = webtoon.id;
         // print('id: $id, title: $title');
       }
 
