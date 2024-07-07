@@ -4,18 +4,22 @@ import 'package:http/http.dart' as http;
 import 'package:toonflix/models/webtoon_model.dart';
 
 class ApiService {
-  List<WebtoonModel> webtoonInstances = [];
-  final String baseUrl = 'https://webtoon-crawler.nomadcoders.workers.dev';
-  final String today = "today";
+  static const String baseUrl =
+      'https://webtoon-crawler.nomadcoders.workers.dev';
+  static const String today = "today";
 
-  Future<List<WebtoonModel>> getTodaysToons() async {
+  static Future<List<WebtoonModel>> getTodaysToons() async {
+    List<WebtoonModel> webtoonInstances = [];
     final url = Uri.parse('$baseUrl/$today');
+
+    //this will be the final data from the API
     final response = await http.get(url);
     if (response.statusCode == 200) {
       //it means the request is successful
       final List<dynamic> webtoons = jsonDecode(response.body);
       for (var webtoon in webtoons) {
-        webtoonInstances.add(WebtoonModel.fromJson(webtoon));
+        final instance = WebtoonModel.fromJson(webtoon);
+        webtoonInstances.add(instance);
         // var title = toon.title;
         // var id = toon.id;
         // print('id: $id, title: $title');
