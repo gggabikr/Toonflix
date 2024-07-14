@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:toonflix/models/webtoon_model.dart';
 import 'package:toonflix/services/api_service.dart';
+import 'package:toonflix/widgets/webtoon_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -55,33 +56,10 @@ class HomeScreen extends StatelessWidget {
       itemBuilder: (context, index) {
         // print(index);
         var webtoon = snapshot.data![index];
-        return Column(
-          children: [
-            Container(
-              width: 250,
-              clipBehavior: Clip.hardEdge,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: const [
-                  BoxShadow(
-                      blurRadius: 10,
-                      offset: Offset(7, 7),
-                      color: Color.fromRGBO(0, 0, 0, 0.4))
-                ],
-              ),
-              child: Image.network(
-                webtoon.thumb,
-                headers: const {
-                  'Referer': 'https://comic.naver.com',
-                },
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              webtoon.title,
-              style: const TextStyle(fontSize: 18),
-            ),
-          ],
+        return Webtoon(
+          title: webtoon.title,
+          thumb: webtoon.thumb,
+          id: webtoon.id,
         );
       },
     );
