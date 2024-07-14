@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:toonflix/models/webtoon_detail_model.dart';
 import 'package:toonflix/models/webtoon_model.dart';
 
 class ApiService {
@@ -28,5 +29,16 @@ class ApiService {
       return webtoonInstances; //여기서 함수를 끝낸다.
     }
     throw Error(); //만약 if 부분이 실행되지않으면 에러를 발생시킨다.
+  }
+
+  static Future<WebtoonDetailModel> getToonById(String id) async {
+    final url = Uri.parse("$baseUrl/$id");
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final webtoon = jsonDecode(response.body);
+      return WebtoonDetailModel.fromJson(webtoon);
+    }
+    throw Error();
   }
 }
