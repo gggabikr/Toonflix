@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:toonflix/models/webtoon_detail_model.dart';
 import 'package:toonflix/models/webtoon_episode_model.dart';
 import 'package:toonflix/services/api_service.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class DetailScreen extends StatefulWidget {
   final String title, thumb, id;
@@ -32,6 +34,13 @@ class _DetailScreenState extends State<DetailScreen> {
     super.initState();
     webtoon = ApiService.getToonById(widget.id);
     episodes = ApiService.getLatestEpisodesById(widget.id);
+  }
+
+  onButtonTap() async {
+    final url = Uri.parse("https://google.ca");
+    await launchUrl(url);
+    //혹은 아래처럼 해도 된다.
+    // await launchUrlString('https://google.ca');
   }
 
   @override
@@ -145,13 +154,28 @@ class _DetailScreenState extends State<DetailScreen> {
                           Container(
                             margin: const EdgeInsets.symmetric(vertical: 2),
                             decoration: BoxDecoration(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(15)),
-                                border: Border.all(
-                                    color: const Color.fromRGBO(
-                                        108, 244, 128, 0.7)),
-                                color:
-                                    const Color.fromRGBO(108, 244, 128, 0.294)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(15)),
+                              border: Border.all(
+                                  color:
+                                      const Color.fromRGBO(144, 247, 159, 0.7)),
+                              color: Colors.green.shade500,
+                              boxShadow: const [
+                                BoxShadow(
+                                  blurRadius: 4,
+                                  offset: Offset(2, 2),
+                                  color: Color.fromRGBO(0, 0, 0, 0.2),
+                                )
+                              ],
+                            ),
+
+                            // boxShadow: const [
+                            //   BoxShadow(
+                            //       blurRadius: 10,
+                            //       offset: Offset(2, 2),
+                            //       color: Color.fromRGBO(0, 0, 0, 0.2))
+                            // ],
+
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 13, vertical: 7),
@@ -159,7 +183,15 @@ class _DetailScreenState extends State<DetailScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(episode.title),
+                                  SizedBox(
+                                    width: 200,
+                                    child: Text(
+                                      episode.title,
+                                      style: const TextStyle(fontSize: 16),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
                                   const Icon(Icons.arrow_right_outlined)
                                 ],
                               ),
