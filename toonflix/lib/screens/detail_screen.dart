@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:toonflix/models/webtoon_detail_model.dart';
 import 'package:toonflix/models/webtoon_episode_model.dart';
 import 'package:toonflix/services/api_service.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:toonflix/widgets/episode_widget.dart';
 
 class DetailScreen extends StatefulWidget {
   final String title, thumb, id;
@@ -34,13 +33,6 @@ class _DetailScreenState extends State<DetailScreen> {
     super.initState();
     webtoon = ApiService.getToonById(widget.id);
     episodes = ApiService.getLatestEpisodesById(widget.id);
-  }
-
-  onButtonTap() async {
-    final url = Uri.parse("https://google.ca");
-    await launchUrl(url);
-    //혹은 아래처럼 해도 된다.
-    // await launchUrlString('https://google.ca');
   }
 
   @override
@@ -148,57 +140,10 @@ class _DetailScreenState extends State<DetailScreen> {
                     //많은 데이터를 다루고, 최적화가 필요할때는 ListView나 ListViewBuilder를
                     //사용하는게 좋지만, 지금은 고작해야 10~20개정도의 데이터만 다룰 예정이기때문에
                     //그냥 Column을 사용할 것. 차후에 연습삼아 바꿔보자!
-                    return Column(
-                      children: [
-                        for (var episode in snapshot.data!)
-                          Container(
-                            margin: const EdgeInsets.symmetric(vertical: 2),
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(15)),
-                              border: Border.all(
-                                  color:
-                                      const Color.fromRGBO(144, 247, 159, 0.7)),
-                              color: Colors.green.shade500,
-                              boxShadow: const [
-                                BoxShadow(
-                                  blurRadius: 4,
-                                  offset: Offset(2, 2),
-                                  color: Color.fromRGBO(0, 0, 0, 0.2),
-                                )
-                              ],
-                            ),
-
-                            // boxShadow: const [
-                            //   BoxShadow(
-                            //       blurRadius: 10,
-                            //       offset: Offset(2, 2),
-                            //       color: Color.fromRGBO(0, 0, 0, 0.2))
-                            // ],
-
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 13, vertical: 7),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: 200,
-                                    child: Text(
-                                      episode.title,
-                                      style: const TextStyle(fontSize: 16),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                  const Icon(Icons.arrow_right_outlined)
-                                ],
-                              ),
-                            ),
-                          )
-                      ],
-                    );
+                    return Column(children: [
+                      for (var episode in snapshot.data!)
+                        Episode(episode: episode)
+                    ]);
                   }
                   return Container();
                 },
