@@ -51,6 +51,11 @@ class _DetailScreenState extends State<DetailScreen> {
         foregroundColor: Colors.green,
         elevation: 3,
         shadowColor: Colors.black54,
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.favorite_outline_rounded))
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
